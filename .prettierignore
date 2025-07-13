@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+build
+coverage
+.contentful-cache
+*.min.js
+*.min.css
+package-lock.json
+yarn.lock
