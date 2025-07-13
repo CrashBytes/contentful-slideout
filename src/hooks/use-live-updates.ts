@@ -1,97 +1,83 @@
-import { useState, useEffect, useCallback } from 'react'
-import { ContentfulEntry } from '@/types'
+import { useEffect, ReactNode } from 'react'
+import { usePreviewStore } from '@/stores/preview-store'
 import { LivePreviewSystem } from '@/lib/preview/LivePreviewSystem'
 
+interface LiveUpdatesConfig {
+  spaceId: string
+  previewAccessToken: string
+  environment?: string
+  enableRealTimeUpdates?: boolean
+}
+
+interface LiveUpdatesProviderProps {
+  children: ReactNode
+  config: LiveUpdatesConfig
+}
+
 /**
- * Custom Hooks for Contentful Live Updates
- * 
- * Design Excellence:
- * - Automatic subscription management with cleanup
- * - Optimistic rendering for immediate feedback
- * - Performance optimization through selective updates
- * - Type-safe integration with live preview system
+ * Custom hook for managing live content updates from Contentful
+ * Provides real-time synchronization capabilities for preview content
  */
-export function useContentfulLiveUpdates(initialEntry: ContentfulEntry): ContentfulEntry {
-  const [entry, setEntry] = useState<ContentfulEntry>(initialEntry)
+export function useLiveUpdates(config: LiveUpdatesConfig) {
+  const { setPreviewData, setConnectionStatus } = usePreviewStore()
 
   useEffect(() => {
-    const livePreview = LivePreviewSystem.getInstance()
-    
-    if (!livePreview) {
-      setEntry(initialEntry)
+    if (!config.spaceId || !config.previewAccessToken) {
+      console.warn('Live updates require valid Contentful credentials')
       return
     }
 
-    const unsubscribe = livePreview.subscribe(initialEntry.sys.id, (updatedEntry) => {
-      setEntry(updatedEntry)
+    const previewSystem = new LivePreviewSystem({
+      spaceId: config.spaceId,
+      previewAccessToken: config.previewAccessToken,
+      environment: config.environment || 'master',
     })
 
-    livePreview.updateEntry(initialEntry.sys.id, initialEntry)
+    const initializeSystem = async () => {
+      try {
+        setConnectionStatus('connecting')
+        
+        await previewSystem.initialize()
+        
+        // Set up event listeners for content changes
+        previewSystem.onContentChange((updatedEntry) => {
+          setPreviewData(updatedEntry)
+        })
 
-    return unsubscribe
-  }, [initialEntry.sys.id, initialEntry.sys.updatedAt])
+        previewSystem.onConnectionStatusChange((status) => {
+          setConnectionStatus(status)
+        })
 
-  useEffect(() => {
-    setEntry(initialEntry)
-    
-    const livePreview = LivePreviewSystem.getInstance()
-    if (livePreview) {
-      livePreview.updateEntry(initialEntry.sys.id, initialEntry)
-    }
-  }, [initialEntry])
-
-  return entry
-}
-
-export function useContentfulInspectorMode(options: {
-  entryId: string
-  fieldId?: string
-  locale?: string
-}): (fieldOverride?: { fieldId: string }) => React.HTMLAttributes<HTMLElement> {
-  const getInspectorProps = useCallback((fieldOverride?: { fieldId: string }) => {
-    const livePreview = LivePreviewSystem.getInstance()
-    
-    if (!livePreview) {
-      return {}
-    }
-
-    return livePreview.getInspectorProps({
-      entryId: options.entryId,
-      fieldId: fieldOverride?.fieldId || options.fieldId || '',
-      locale: options.locale
-    })
-  }, [options.entryId, options.fieldId, options.locale])
-
-  return getInspectorProps
-}
-
-export function LivePreviewProvider({ 
-  children, 
-  config 
-}: { 
-  children: React.ReactNode
-  config: {
-    locale: string
-    enableInspectorMode?: boolean
-    enableLiveUpdates?: boolean
-    debugMode?: boolean
-  }
-}) {
-  useEffect(() => {
-    const livePreview = LivePreviewSystem.initialize({
-      locale: config.locale,
-      enableInspectorMode: config.enableInspectorMode ?? true,
-      enableLiveUpdates: config.enableLiveUpdates ?? true,
-      debugMode: config.debugMode ?? false,
-      targetOrigin: 'https://app.contentful.com'
-    })
-
-    return () => {
-      if (process.env.NODE_ENV === 'development') {
-        // Cleanup handled by system
+        setConnectionStatus('connected')
+      } catch (error) {
+        console.error('Failed to initialize live preview system:', error)
+        setConnectionStatus('error')
       }
     }
-  }, [config])
 
-  return <>{children}</>
+    if (config.enableRealTimeUpdates !== false) {
+      initializeSystem()
+    }
+
+    return () => {
+      previewSystem.cleanup()
+    }
+  }, [
+    config.spaceId,
+    config.previewAccessToken,
+    config.environment,
+    config.enableRealTimeUpdates,
+    setPreviewData,
+    setConnectionStatus,
+  ])
+}
+
+/**
+ * Provider component for live updates functionality
+ * Wraps children with live preview capabilities
+ */
+export function LiveUpdatesProvider({ children, config }: LiveUpdatesProviderProps) {
+  useLiveUpdates(config)
+  
+  return children
 }
