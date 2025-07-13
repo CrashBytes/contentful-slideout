@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "@contentful/rich-text-react-renderer": "^16.0.2",
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@radix-ui/react-select": "^2.2.5",
+    "@radix-ui/react-separator": "^1.1.7",
+    "@radix-ui/react-tabs": "^1.1.12",
+    "@radix-ui/react-toast": "^1.2.14",
+    "@tanstack/react-query": "^5.83.0",
+    "@tanstack/react-virtual": "^3.13.12",
+    "clsx": "^2.1.1",
+    "contentful": "^11.7.6",
+    "framer-motion": "^12.23.3",
+    "jotai": "^2.12.5",
+    "tailwind-merge": "^3.3.1",
+    "use-debounce": "^10.0.5",
+    "zod": "^4.0.5",
+    "zustand": "^5.0.6"
+  }
+}
