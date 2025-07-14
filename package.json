@@ -12,7 +12,10 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "analyze": "ANALYZE=true npm run build",
-    "validate": "npm run type-check && npm run lint && npm run format:check"
+    "validate": "npm run type-check && npm run lint && npm run format:check",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "storybook:test": "test-storybook"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.83.0",
@@ -29,6 +32,16 @@
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^14.0.4",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-interactions": "^8.6.14",
+    "@storybook/addon-links": "^8.6.14",
+    "@storybook/addon-onboarding": "^8.6.14",
+    "@storybook/addon-viewport": "^8.6.14",
+    "@storybook/blocks": "^8.6.14",
+    "@storybook/nextjs": "^8.6.14",
+    "@storybook/react": "^8.6.14",
+    "@storybook/test": "^8.6.14",
+    "@storybook/test-runner": "^0.19.1",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
@@ -41,6 +54,7 @@
     "eslint-config-next": "^14.0.4",
     "postcss": "^8.5.6",
     "prettier": "^3.1.1",
+    "storybook": "^8.6.14",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.3.3"
   },
