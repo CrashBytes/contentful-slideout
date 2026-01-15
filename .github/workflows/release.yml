@@ -28,10 +28,13 @@ jobs:
         run: npm install -g npm@latest  # Requires npm >= 11.5.1
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
+
+      - name: Run validation
+        run: npm run validate
 
       - name: Build library
-        run: yarn build:lib
+        run: npm run build:lib
 
       - name: Publish to npm with Provenance
         run: npm publish --provenance --access public
