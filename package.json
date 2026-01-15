@@ -13,19 +13,15 @@
     "typescript",
     "tailwind"
   ],
-  "author": {
-    "name": "Your Name",
-    "email": "your.email@example.com",
-    "url": "https://yourwebsite.com"
-  },
+  "author": "CrashBytes",
   "license": "MIT",
-  "homepage": "https://github.com/yourusername/contentful-slideout#readme",
+  "homepage": "https://github.com/CrashBytes/contentful-slideout#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/contentful-slideout.git"
+    "url": "https://github.com/CrashBytes/contentful-slideout.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/contentful-slideout/issues"
+    "url": "https://github.com/CrashBytes/contentful-slideout/issues"
   },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -58,13 +54,16 @@
     "build": "next build",
     "build:lib": "rollup -c rollup.config.js",
     "start": "next start",
+    "test": "jest --no-coverage",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "analyze": "ANALYZE=true npm run build",
-    "validate": "npm run type-check && npm run lint && npm run format:check",
+    "validate": "npm run type-check && npm run lint && npm run format:check && npm run test",
     "fix-storybook": "node scripts/fix-storybook.js",
     "fix-storybook:auto": "node scripts/fix-storybook.js --auto-fix",
     "storybook": "storybook dev -p 6006",
@@ -77,11 +76,11 @@
     "publish:major": "npm version major && npm publish"
   },
   "peerDependencies": {
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0",
-    "next": ">=14.0.0",
+    "date-fns": ">=4.0.0",
     "lucide-react": ">=0.200.0",
-    "date-fns": ">=4.0.0"
+    "next": ">=14.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   },
   "peerDependenciesMeta": {
     "next": {
@@ -113,6 +112,10 @@
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/react-query": "^5.83.0",
     "@tanstack/react-query-devtools": "^5.83.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.0.13",
     "@types/react": "^18.2.46",
     "@types/react-dom": "^18.2.18",
@@ -122,6 +125,8 @@
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.0.4",
     "framer-motion": "^10.16.16",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^30.2.0",
     "lucide-react": "^0.525.0",
     "next": "^14.0.4",
     "postcss": "^8.5.6",
