@@ -1,6 +1,9 @@
-import { Entry, Asset, Sys } from 'contentful'
-
-export interface ContentfulSys extends Sys {
+export interface ContentfulSys {
+  type: string
+  id: string
+  createdAt: string
+  updatedAt: string
+  revision: number
   contentType: {
     sys: {
       id: string
@@ -8,13 +11,18 @@ export interface ContentfulSys extends Sys {
     }
   }
   locale?: string
+  space?: { sys: { type: string; linkType: string; id: string } }
+  environment?: { sys: { type: string; linkType: string; id: string } }
 }
 
-export interface ContentfulEntry<T = any> extends Entry<T> {
+export interface ContentfulEntry<T = any> {
   sys: ContentfulSys
+  fields: T & Record<string, any>
+  metadata?: { tags: any[] }
 }
 
-export interface ContentfulAsset extends Asset {
+export interface ContentfulAsset {
+  sys: { type: string; id: string; createdAt: string; updatedAt: string }
   fields: {
     title: string
     description?: string

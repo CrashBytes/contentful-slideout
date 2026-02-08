@@ -21,7 +21,7 @@ export function Portal({ children, container, id = 'portal-root' }: PortalProps)
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null)
 
   useEffect(() => {
-    let element = container
+    let element: HTMLElement | null | undefined = container
     
     if (!element) {
       element = document.getElementById(id)

@@ -127,7 +127,7 @@ export const BlogPost: Story = {
           Click to view content
         </button>
       </div>
-      <FlexibleSlideout {...args} />
+      <FlexibleSlideout {...(args as any)} />
     </div>
   ),
 }

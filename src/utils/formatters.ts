@@ -31,8 +31,8 @@ export const formatters = {
   },
 
   entryTitle: (entry: ContentfulEntry): string => {
-    const fields = entry.fields
-    return fields.title || fields.name || `Entry ${entry.sys.id.slice(0, 8)}`
+    const fields = entry.fields as Record<string, any>
+    return String(fields.title || fields.name || `Entry ${entry.sys.id.slice(0, 8)}`)
   },
 
   fileSize: (bytes: number): string => {

@@ -231,37 +231,3 @@ export function PreviewSlideout({ isOpen, onClose, entry, mode = 'preview' }: Pr
   )
 }
 
-/**
- * ========================================
- * formatters utility (if not exists)
- * src/utils/formatters.ts
- * ========================================
- */
-
-import { format, parseISO, formatDistanceToNow } from 'date-fns'
-
-export const formatters = {
-  date: (date: string, pattern: string = 'PPP'): string => {
-    try {
-      return format(parseISO(date), pattern)
-    } catch {
-      return 'Invalid date'
-    }
-  },
-  
-  datetime: (date: string): string => {
-    try {
-      return format(parseISO(date), 'MMM dd, yyyy \'at\' HH:mm')
-    } catch {
-      return 'Invalid date'
-    }
-  },
-  
-  timeAgo: (date: string): string => {
-    try {
-      return formatDistanceToNow(parseISO(date), { addSuffix: true })
-    } catch {
-      return 'Unknown time'
-    }
-  },
-}

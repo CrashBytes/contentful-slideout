@@ -92,7 +92,7 @@ export class LivePreviewSystem {
     entryId: string
     fieldId: string
     locale?: string
-  }): React.HTMLAttributes<HTMLElement> {
+  }): Record<string, any> {
     if (!this.config.enableInspectorMode) {
       return {}
     }
@@ -178,7 +178,7 @@ export class LivePreviewSystem {
     document.head.appendChild(style)
   }
 
-  private handleInspectorClick(options: any, event: React.MouseEvent): void {
+  private handleInspectorClick(options: any, event: any): void {
     if (!this.config.enableInspectorMode) return
 
     event.preventDefault()
@@ -213,7 +213,7 @@ export class LivePreviewSystem {
         if (!acc[update.entryId]) {
           acc[update.entryId] = []
         }
-        acc[update.entryId].push(update)
+        acc[update.entryId]!.push(update)
         return acc
       }, {} as Record<string, FieldUpdateEvent[]>)
 
@@ -262,6 +262,12 @@ export class LivePreviewSystem {
     } catch (error) {
       console.error('Failed to send message to Contentful:', error)
     }
+  }
+
+  cleanup(): void {
+    this.subscribers.clear()
+    this.entryCache.clear()
+    this.messageQueue = []
   }
 
   getMetrics() {
