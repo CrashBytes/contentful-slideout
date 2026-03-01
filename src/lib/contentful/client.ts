@@ -11,8 +11,8 @@ import { createClient, ContentfulClientApi } from 'contentful'
  */
 class ContentfulClient {
   private static instance: ContentfulClient
-  private client: ContentfulClientApi
-  private previewClient: ContentfulClientApi
+  private client: ContentfulClientApi<undefined>
+  private previewClient: ContentfulClientApi<undefined>
 
   private constructor() {
     const baseConfig = {
@@ -41,14 +41,14 @@ class ContentfulClient {
     return this.instance
   }
 
-  getClient(preview = false): ContentfulClientApi {
+  getClient(preview = false): ContentfulClientApi<undefined> {
     return preview ? this.previewClient : this.client
   }
 
   async getEntry(id: string, options: {
     preview?: boolean
     locale?: string
-    include?: number
+    include?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
   } = {}) {
     const { preview = false, locale, include = 3 } = options
     const client = this.getClient(preview)
@@ -81,7 +81,7 @@ class ContentfulClient {
         limit: Math.min(limit, 1000),
         skip,
         include: 2,
-        order: '-sys.updatedAt',
+        order: ['-sys.updatedAt'] as any,
       })
     } catch (error) {
       console.error('Failed to fetch entries:', error)

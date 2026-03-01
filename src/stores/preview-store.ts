@@ -107,7 +107,6 @@ export const usePreviewStore = create<PreviewState>()(
           },
         }
       ),
-      { name: 'preview-store' }
     )
   )
 )

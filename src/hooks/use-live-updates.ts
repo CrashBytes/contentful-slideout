@@ -19,56 +19,28 @@ interface LiveUpdatesProviderProps {
  * Provides real-time synchronization capabilities for preview content
  */
 export function useLiveUpdates(config: LiveUpdatesConfig) {
-  const { setPreviewData, setConnectionStatus } = usePreviewStore()
-
   useEffect(() => {
     if (!config.spaceId || !config.previewAccessToken) {
       console.warn('Live updates require valid Contentful credentials')
       return
     }
 
-    const previewSystem = new LivePreviewSystem({
-      spaceId: config.spaceId,
-      previewAccessToken: config.previewAccessToken,
-      environment: config.environment || 'master',
+    const previewSystem = LivePreviewSystem.initialize({
+      locale: 'en-US',
+      enableInspectorMode: false,
+      enableLiveUpdates: config.enableRealTimeUpdates !== false,
+      debugMode: false,
+      targetOrigin: 'https://app.contentful.com',
     })
 
-    const initializeSystem = async () => {
-      try {
-        setConnectionStatus('connecting')
-        
-        await previewSystem.initialize()
-        
-        // Set up event listeners for content changes
-        previewSystem.onContentChange((updatedEntry) => {
-          setPreviewData(updatedEntry)
-        })
-
-        previewSystem.onConnectionStatusChange((status) => {
-          setConnectionStatus(status)
-        })
-
-        setConnectionStatus('connected')
-      } catch (error) {
-        console.error('Failed to initialize live preview system:', error)
-        setConnectionStatus('error')
-      }
-    }
-
-    if (config.enableRealTimeUpdates !== false) {
-      initializeSystem()
-    }
-
     return () => {
-      previewSystem.cleanup()
+      // cleanup handled by singleton
     }
   }, [
     config.spaceId,
     config.previewAccessToken,
     config.environment,
     config.enableRealTimeUpdates,
-    setPreviewData,
-    setConnectionStatus,
   ])
 }
 

@@ -75,10 +75,11 @@ export function useContentfulSpace() {
     queryFn: async () => {
       try {
         const space = await contentfulClient.getSpace()
+        const defaultLocale = space.locales.find((l: any) => l.default)?.code || 'en-US'
         return {
           name: space.name,
           locales: space.locales,
-          defaultLocale: space.defaultLocale,
+          defaultLocale,
         }
       } catch (error) {
         console.error('Error fetching space information:', error)
