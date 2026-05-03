@@ -1,6 +1,6 @@
 {
   "name": "contentful-slideout",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A powerful, flexible React component that brings Contentful's live preview experience to any Next.js application",
   "keywords": [
     "react",
@@ -70,14 +70,11 @@
     "build-storybook": "storybook build -o storybook-static",
     "storybook:test": "test-storybook",
     "storybook:chromatic": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN",
-    "prepublishOnly": "npm run validate && npm run build:lib",
-    "publish:patch": "npm version patch && npm publish",
-    "publish:minor": "npm version minor && npm publish",
-    "publish:major": "npm version major && npm publish"
+    "prepublishOnly": "npm run validate && npm run build:lib"
   },
   "peerDependencies": {
     "date-fns": ">=4.0.0",
-    "lucide-react": ">=0.200.0",
+    "lucide-react": ">=0.200.0 || ^1.14.0",
     "next": ">=14.0.0",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
@@ -98,18 +95,14 @@
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-typescript": "^12.3.0",
-    "@storybook/addon-essentials": "^8.6.14",
-    "@storybook/addon-interactions": "^8.6.14",
-    "@storybook/addon-links": "^10.2.13",
-    "@storybook/addon-onboarding": "^10.2.13",
-    "@storybook/addon-viewport": "^9.0.8",
-    "@storybook/blocks": "^8.6.14",
-    "@storybook/nextjs": "^10.2.13",
-    "@storybook/react": "^10.2.13",
-    "@storybook/test": "^8.6.15",
-    "@storybook/test-runner": "^0.24.2",
+    "@storybook/addon-links": "^10.3.6",
+    "@storybook/addon-onboarding": "^10.3.6",
+    "@storybook/nextjs": "^10.3.6",
+    "@storybook/react": "^10.3.6",
+    "@storybook/test-runner": "^0.24.3",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.11",
+    "@tailwindcss/postcss": "^4.2.4",
     "@tailwindcss/typography": "^0.5.19",
     "@tanstack/react-query": "^5.90.21",
     "@tanstack/react-query-devtools": "^5.91.3",
@@ -128,7 +121,7 @@
     "framer-motion": "^12.34.3",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
-    "lucide-react": "^0.575.0",
+    "lucide-react": "^1.14.0",
     "next": "^16.1.6",
     "postcss": "^8.5.6",
     "prettier": "^3.8.1",
@@ -138,9 +131,9 @@
     "rollup-plugin-dts": "^6.3.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
-    "storybook": "^10.2.13",
+    "storybook": "^10.3.6",
     "tailwindcss": "^4.2.1",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "engines": {
     "node": ">=18.0.0",
