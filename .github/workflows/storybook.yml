@@ -8,6 +8,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    # peaceiris/actions-gh-pages pushes to the gh-pages branch with GITHUB_TOKEN,
+    # which needs write access to repo contents (the default is read-only, causing
+    # a 403 "denied to github-actions[bot]").
+    permissions:
+      contents: write
+
     steps:
       - uses: actions/checkout@v6
 
