@@ -71,10 +71,14 @@ export interface CategoryFields {
   color?: string
 }
 
-export const isBlogPost = (entry: ContentfulEntry): entry is ContentfulEntry<BlogPostFields> => {
+export const isBlogPost = (
+  entry: ContentfulEntry
+): entry is ContentfulEntry<BlogPostFields> => {
   return entry.sys.contentType.sys.id === 'blogPost'
 }
 
-export const isAuthor = (entry: ContentfulEntry): entry is ContentfulEntry<AuthorFields> => {
+export const isAuthor = (
+  entry: ContentfulEntry
+): entry is ContentfulEntry<AuthorFields> => {
   return entry.sys.contentType.sys.id === 'author'
 }

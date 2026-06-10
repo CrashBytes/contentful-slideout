@@ -11,7 +11,11 @@ interface PreviewContainerProps {
   viewMode: ViewMode
 }
 
-export function PreviewContainer({ entry, entryType, viewMode }: PreviewContainerProps) {
+export function PreviewContainer({
+  entry,
+  entryType,
+  viewMode,
+}: PreviewContainerProps) {
   const { configurations, updateConfiguration } = usePreviewStore()
 
   const configuration = configurations.get(entry.sys.id)
@@ -22,15 +26,13 @@ export function PreviewContainer({ entry, entryType, viewMode }: PreviewContaine
   }
 
   return (
-    <div className="flex h-full flex-col bg-gray-50">
-      <PreviewHeader
-        entry={entry}
-        entryType={entryType}
-        viewMode={viewMode}
-      />
+    <div className='flex h-full flex-col bg-gray-50'>
+      <PreviewHeader entry={entry} entryType={entryType} viewMode={viewMode} />
 
-      <div className="flex-1 overflow-hidden">
-        <Suspense fallback={<div className="animate-pulse p-4">Loading...</div>}>
+      <div className='flex-1 overflow-hidden'>
+        <Suspense
+          fallback={<div className='animate-pulse p-4'>Loading...</div>}
+        >
           <div
             className={cn(
               'h-full overflow-auto bg-white',

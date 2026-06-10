@@ -2,13 +2,12 @@
 'use client'
 
 import { useState } from 'react'
-import { usePreviewStore } from '@/stores/preview-store'
 import { FlexibleSlideout } from '@/components/slideout/FlexibleSlideout'
-import { 
-  BlogPostPreview, 
-  AuthorPreview, 
+import {
+  BlogPostPreview,
+  AuthorPreview,
   ProductPreview,
-  GenericPreview 
+  GenericPreview,
 } from '@/components/slideout/entry-previews'
 
 // Mock data for different content types
@@ -22,20 +21,27 @@ const mockBlogPost = {
   fields: {
     title: 'Building Modern Web Applications',
     slug: 'building-modern-web-apps',
-    excerpt: 'Learn the latest techniques for building scalable web applications with Next.js and React.',
+    excerpt:
+      'Learn the latest techniques for building scalable web applications with Next.js and React.',
     content: {
       nodeType: 'document',
       content: [
         {
           nodeType: 'paragraph',
-          content: [{ nodeType: 'text', value: 'This is a comprehensive guide to building modern web applications...' }]
-        }
-      ]
+          content: [
+            {
+              nodeType: 'text',
+              value:
+                'This is a comprehensive guide to building modern web applications...',
+            },
+          ],
+        },
+      ],
     },
     publishedDate: '2024-01-15T10:00:00Z',
     tags: ['web development', 'react', 'nextjs'],
-    readTime: 8
-  }
+    readTime: 8,
+  },
 }
 
 const mockAuthor = {
@@ -53,15 +59,15 @@ const mockAuthor = {
       fields: {
         file: {
           url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
-        }
-      }
+        },
+      },
     },
     socialLinks: {
       twitter: '@alexthompson',
       linkedin: 'alex-thompson-dev',
-      github: 'alexthompson'
-    }
-  }
+      github: 'alexthompson',
+    },
+  },
 }
 
 const mockProduct = {
@@ -83,16 +89,16 @@ const mockProduct = {
         fields: {
           file: {
             url: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=200&fit=crop',
-          }
-        }
-      }
+          },
+        },
+      },
     ],
     specifications: {
       batteryLife: '30 hours',
       weight: '250g',
-      connectivity: 'Bluetooth 5.0'
-    }
-  }
+      connectivity: 'Bluetooth 5.0',
+    },
+  },
 }
 
 const mockGenericContent = {
@@ -109,9 +115,9 @@ const mockGenericContent = {
     customField3: ['tag1', 'tag2', 'tag3'],
     nestedObject: {
       property1: 'value1',
-      property2: 'value2'
-    }
-  }
+      property2: 'value2',
+    },
+  },
 }
 
 // Entry type configurations
@@ -121,64 +127,64 @@ const entryConfigurations = {
       id: 'blogPost',
       name: 'Blog Post',
       contentTypeId: 'blogPost',
-      previewComponent: BlogPostPreview
+      previewComponent: BlogPostPreview,
     },
     data: mockBlogPost,
     props: {
       showReadTime: true,
       showTags: true,
-      allowEdit: true
-    }
+      allowEdit: true,
+    },
   },
   author: {
     entryType: {
       id: 'author',
       name: 'Author',
       contentTypeId: 'author',
-      previewComponent: AuthorPreview
+      previewComponent: AuthorPreview,
     },
     data: mockAuthor,
     props: {
       showSocialLinks: true,
-      showContactInfo: false
-    }
+      showContactInfo: false,
+    },
   },
   product: {
     entryType: {
       id: 'product',
       name: 'Product',
       contentTypeId: 'product',
-      previewComponent: ProductPreview
+      previewComponent: ProductPreview,
     },
     data: mockProduct,
     props: {
       showPricing: true,
       showInventory: true,
-      currency: 'USD'
-    }
+      currency: 'USD',
+    },
   },
   customContent: {
     entryType: {
       id: 'customContent',
       name: 'Custom Content',
       contentTypeId: 'customContent',
-      previewComponent: GenericPreview
+      previewComponent: GenericPreview,
     },
     data: mockGenericContent,
     props: {
       showAllFields: true,
-      debugMode: true
-    }
-  }
+      debugMode: true,
+    },
+  },
 }
 
 // Content Card Component
-function ContentCard({ 
-  title, 
-  type, 
-  description, 
+function ContentCard({
+  title,
+  type,
+  description,
   onClick,
-  image 
+  image,
 }: {
   title: string
   type: string
@@ -187,28 +193,38 @@ function ContentCard({
   image?: string
 }) {
   return (
-    <div 
-      className="bg-white rounded-lg border border-slate-200 p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:border-blue-300"
+    <div
+      className='bg-white rounded-lg border border-slate-200 p-6 cursor-pointer hover:shadow-lg transition-all duration-200 hover:border-blue-300'
       onClick={onClick}
     >
       {image && (
-        <img 
-          src={image} 
+        <img
+          src={image}
           alt={title}
-          className="w-full h-48 object-cover rounded-md mb-4"
+          className='w-full h-48 object-cover rounded-md mb-4'
         />
       )}
-      <div className="flex items-start justify-between mb-2">
-        <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
-        <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+      <div className='flex items-start justify-between mb-2'>
+        <h3 className='text-lg font-semibold text-slate-900'>{title}</h3>
+        <span className='px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full'>
           {type}
         </span>
       </div>
-      <p className="text-slate-600 text-sm mb-4">{description}</p>
-      <div className="flex items-center text-blue-600 text-sm font-medium">
+      <p className='text-slate-600 text-sm mb-4'>{description}</p>
+      <div className='flex items-center text-blue-600 text-sm font-medium'>
         <span>Click to preview</span>
-        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        <svg
+          className='w-4 h-4 ml-1'
+          fill='none'
+          stroke='currentColor'
+          viewBox='0 0 24 24'
+        >
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            strokeWidth={2}
+            d='M9 5l7 7-7 7'
+          />
         </svg>
       </div>
     </div>
@@ -231,84 +247,99 @@ export default function DemoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className='min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50'>
       {/* Header */}
-      <div className="bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">
+      <div className='bg-white border-b border-slate-200'>
+        <div className='max-w-7xl mx-auto px-4 py-8'>
+          <h1 className='text-4xl font-bold text-slate-900 mb-2'>
             Flexible Slideout Demo
           </h1>
-          <p className="text-xl text-slate-600">
+          <p className='text-xl text-slate-600'>
             Click on any content item below to view it in the slideout preview
           </p>
         </div>
       </div>
 
       {/* Content Grid */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className='max-w-7xl mx-auto px-4 py-12'>
+        <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
           {/* Blog Post */}
           <ContentCard
-            title="Building Modern Web Applications"
-            type="Blog Post"
-            description="Learn the latest techniques for building scalable web applications with Next.js and React."
+            title='Building Modern Web Applications'
+            type='Blog Post'
+            description='Learn the latest techniques for building scalable web applications with Next.js and React.'
             onClick={() => handleContentClick('blogPost')}
-            image="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=200&fit=crop"
+            image='https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=400&h=200&fit=crop'
           />
 
           {/* Author */}
           <ContentCard
-            title="Alex Thompson"
-            type="Author"
-            description="Senior Frontend Developer with 8+ years of experience in React and TypeScript."
+            title='Alex Thompson'
+            type='Author'
+            description='Senior Frontend Developer with 8+ years of experience in React and TypeScript.'
             onClick={() => handleContentClick('author')}
-            image="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop&crop=face"
+            image='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop&crop=face'
           />
 
           {/* Product */}
           <ContentCard
-            title="Premium Wireless Headphones"
-            type="Product"
-            description="High-quality wireless headphones with noise cancellation technology."
+            title='Premium Wireless Headphones'
+            type='Product'
+            description='High-quality wireless headphones with noise cancellation technology.'
             onClick={() => handleContentClick('product')}
-            image="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=200&fit=crop"
+            image='https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=200&fit=crop'
           />
 
           {/* Custom Content */}
           <ContentCard
-            title="Custom Content Example"
-            type="Custom"
-            description="Example of how the slideout handles generic content types with custom fields."
+            title='Custom Content Example'
+            type='Custom'
+            description='Example of how the slideout handles generic content types with custom fields.'
             onClick={() => handleContentClick('customContent')}
           />
 
           {/* Add more content items */}
           <ContentCard
-            title="Another Blog Post"
-            type="Blog Post"
-            description="Another example blog post to demonstrate multiple entries of the same type."
+            title='Another Blog Post'
+            type='Blog Post'
+            description='Another example blog post to demonstrate multiple entries of the same type.'
             onClick={() => handleContentClick('blogPost')}
-            image="https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?w=400&h=200&fit=crop"
+            image='https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?w=400&h=200&fit=crop'
           />
 
           <ContentCard
-            title="Marketing Content"
-            type="Custom"
-            description="Custom marketing content with specialized fields and configurations."
+            title='Marketing Content'
+            type='Custom'
+            description='Custom marketing content with specialized fields and configurations.'
             onClick={() => handleContentClick('customContent')}
           />
         </div>
 
         {/* Usage Instructions */}
-        <div className="mt-16 bg-white rounded-lg border border-slate-200 p-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-4">How to Use</h2>
-          <div className="prose prose-slate max-w-none">
-            <p>This demo shows how to create a flexible slideout that can handle different content types:</p>
+        <div className='mt-16 bg-white rounded-lg border border-slate-200 p-8'>
+          <h2 className='text-2xl font-bold text-slate-900 mb-4'>How to Use</h2>
+          <div className='prose prose-slate max-w-none'>
+            <p>
+              This demo shows how to create a flexible slideout that can handle
+              different content types:
+            </p>
             <ul>
-              <li><strong>Blog Posts:</strong> Custom preview with reading time, tags, and content preview</li>
-              <li><strong>Authors:</strong> Profile view with bio, avatar, and social links</li>
-              <li><strong>Products:</strong> Product details with pricing, inventory, and specifications</li>
-              <li><strong>Custom Content:</strong> Generic preview that adapts to any content structure</li>
+              <li>
+                <strong>Blog Posts:</strong> Custom preview with reading time,
+                tags, and content preview
+              </li>
+              <li>
+                <strong>Authors:</strong> Profile view with bio, avatar, and
+                social links
+              </li>
+              <li>
+                <strong>Products:</strong> Product details with pricing,
+                inventory, and specifications
+              </li>
+              <li>
+                <strong>Custom Content:</strong> Generic preview that adapts to
+                any content structure
+              </li>
             </ul>
             <p>Each content type can have its own:</p>
             <ul>

@@ -1,21 +1,38 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { createClient } from 'contentful'
+import { createClient, type ContentfulClientApi } from 'contentful'
 
-// Create Contentful clients
-const contentfulClient = createClient({
-  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
-  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_DELIVERY_TOKEN!,
-  environment: process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT || 'master',
-})
+// Create Contentful clients lazily, so they are instantiated at runtime (in the
+// browser, when a query actually runs) rather than at module load. Eager
+// instantiation executes during the production build's prerender step, where no
+// Contentful token is available and `createClient` throws
+// "Expected parameter accessToken", which fails the build.
+let _contentfulClient: ContentfulClientApi<undefined> | undefined
+let _previewClient: ContentfulClientApi<undefined> | undefined
 
-const previewClient = createClient({
-  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
-  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_PREVIEW_TOKEN!,
-  host: 'preview.contentful.com',
-  environment: process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT || 'master',
-})
+function getContentfulClient(): ContentfulClientApi<undefined> {
+  if (!_contentfulClient) {
+    _contentfulClient = createClient({
+      space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
+      accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_DELIVERY_TOKEN!,
+      environment: process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT || 'master',
+    })
+  }
+  return _contentfulClient
+}
+
+function getPreviewClient(): ContentfulClientApi<undefined> {
+  if (!_previewClient) {
+    _previewClient = createClient({
+      space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID!,
+      accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_PREVIEW_TOKEN!,
+      host: 'preview.contentful.com',
+      environment: process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT || 'master',
+    })
+  }
+  return _previewClient
+}
 
 /**
  * Hook for fetching all entries from your Contentful space
@@ -24,14 +41,14 @@ export function useContentfulEntries(preview: boolean = false) {
   return useQuery({
     queryKey: ['contentful-entries', preview],
     queryFn: async () => {
-      const client = preview ? previewClient : contentfulClient
-      
+      const client = preview ? getPreviewClient() : getContentfulClient()
+
       try {
         const response = await client.getEntries({
           limit: 50,
           include: 1,
         })
-        
+
         return {
           entries: response.items,
           total: response.total,
@@ -54,7 +71,7 @@ export function useContentfulContentTypes() {
     queryKey: ['contentful-content-types'],
     queryFn: async () => {
       try {
-        const response = await contentfulClient.getContentTypes()
+        const response = await getContentfulClient().getContentTypes()
         return response.items
       } catch (error) {
         console.error('Error fetching content types:', error)
@@ -74,8 +91,9 @@ export function useContentfulSpace() {
     queryKey: ['contentful-space'],
     queryFn: async () => {
       try {
-        const space = await contentfulClient.getSpace()
-        const defaultLocale = space.locales.find((l: any) => l.default)?.code || 'en-US'
+        const space = await getContentfulClient().getSpace()
+        const defaultLocale =
+          space.locales.find((l: any) => l.default)?.code || 'en-US'
         return {
           name: space.name,
           locales: space.locales,
@@ -97,7 +115,7 @@ export function useContentfulSpace() {
 export function useContentfulHealth() {
   const spaceQuery = useContentfulSpace()
   const entriesQuery = useContentfulEntries()
-  
+
   return {
     isConnected: spaceQuery.isSuccess && entriesQuery.isSuccess,
     isLoading: spaceQuery.isLoading || entriesQuery.isLoading,

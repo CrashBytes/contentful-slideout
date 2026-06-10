@@ -2,7 +2,7 @@ import { createClient, ContentfulClientApi } from 'contentful'
 
 /**
  * Enterprise Contentful Client
- * 
+ *
  * Design Principles:
  * - Singleton pattern for connection reuse
  * - Comprehensive error handling with retry logic
@@ -45,14 +45,17 @@ class ContentfulClient {
     return preview ? this.previewClient : this.client
   }
 
-  async getEntry(id: string, options: {
-    preview?: boolean
-    locale?: string
-    include?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
-  } = {}) {
+  async getEntry(
+    id: string,
+    options: {
+      preview?: boolean
+      locale?: string
+      include?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+    } = {}
+  ) {
     const { preview = false, locale, include = 3 } = options
     const client = this.getClient(preview)
-    
+
     try {
       const entry = await client.getEntry(id, { locale, include })
       if (!entry) {
@@ -65,15 +68,18 @@ class ContentfulClient {
     }
   }
 
-  async getEntries(contentType?: string, options: {
-    preview?: boolean
-    locale?: string
-    limit?: number
-    skip?: number
-  } = {}) {
+  async getEntries(
+    contentType?: string,
+    options: {
+      preview?: boolean
+      locale?: string
+      limit?: number
+      skip?: number
+    } = {}
+  ) {
     const { preview = false, locale, limit = 100, skip = 0 } = options
     const client = this.getClient(preview)
-    
+
     try {
       return await client.getEntries({
         content_type: contentType,

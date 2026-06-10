@@ -15,7 +15,9 @@ export const formatters = {
   datetime: (dateString: string) => {
     try {
       const date = parseISO(dateString)
-      return isValid(date) ? format(date, 'MMM dd, yyyy \'at\' HH:mm') : 'Invalid date'
+      return isValid(date)
+        ? format(date, "MMM dd, yyyy 'at' HH:mm")
+        : 'Invalid date'
     } catch {
       return 'Invalid date'
     }
@@ -24,7 +26,9 @@ export const formatters = {
   timeAgo: (dateString: string) => {
     try {
       const date = parseISO(dateString)
-      return isValid(date) ? formatDistanceToNow(date, { addSuffix: true }) : 'Unknown time'
+      return isValid(date)
+        ? formatDistanceToNow(date, { addSuffix: true })
+        : 'Unknown time'
     } catch {
       return 'Unknown time'
     }
@@ -32,14 +36,16 @@ export const formatters = {
 
   entryTitle: (entry: ContentfulEntry): string => {
     const fields = entry.fields as Record<string, any>
-    return String(fields.title || fields.name || `Entry ${entry.sys.id.slice(0, 8)}`)
+    return String(
+      fields.title || fields.name || `Entry ${entry.sys.id.slice(0, 8)}`
+    )
   },
 
   fileSize: (bytes: number): string => {
     const sizes = ['Bytes', 'KB', 'MB', 'GB']
     if (bytes === 0) return '0 Bytes'
-    
+
     const i = Math.floor(Math.log(bytes) / Math.log(1024))
-    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i]
+    return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + ' ' + sizes[i]
   },
 }

@@ -2,12 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { action } from 'storybook/actions'
 import React from 'react'
 import { FlexibleSlideout } from './FlexibleSlideout'
-import { 
-  BlogPostPreview, 
-  AuthorPreview, 
-  ProductPreview, 
-  GenericPreview 
-} from './entry-previews'
+import { BlogPostPreview, AuthorPreview } from './entry-previews'
 
 // Mock data
 const mockBlogPost = {
@@ -20,12 +15,13 @@ const mockBlogPost = {
   fields: {
     title: 'The Ultimate Guide to Modern Web Development',
     slug: 'ultimate-guide-modern-web-development',
-    excerpt: 'Discover the latest trends, tools, and techniques that are shaping the future of web development in 2024.',
+    excerpt:
+      'Discover the latest trends, tools, and techniques that are shaping the future of web development in 2024.',
     content: 'Modern web development has evolved dramatically...',
     publishedDate: '2024-01-15T10:00:00Z',
     tags: ['web development', 'react', 'nextjs', 'typescript'],
     readTime: 12,
-  }
+  },
 }
 
 const mockAuthor = {
@@ -42,9 +38,9 @@ const mockAuthor = {
     socialLinks: {
       twitter: '@alexthompson_dev',
       linkedin: 'alex-thompson-dev',
-      github: 'alexthompson'
+      github: 'alexthompson',
     },
-  }
+  },
 }
 
 const entryTypes = {
@@ -52,14 +48,14 @@ const entryTypes = {
     id: 'blogPost',
     name: 'Blog Post',
     contentTypeId: 'blogPost',
-    previewComponent: BlogPostPreview
+    previewComponent: BlogPostPreview,
   },
   author: {
     id: 'author',
     name: 'Author',
     contentTypeId: 'author',
-    previewComponent: AuthorPreview
-  }
+    previewComponent: AuthorPreview,
+  },
 }
 
 const meta: Meta<typeof FlexibleSlideout> = {
@@ -69,7 +65,8 @@ const meta: Meta<typeof FlexibleSlideout> = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'A flexible slideout component that mimics Contentful\'s live preview functionality.',
+        component:
+          "A flexible slideout component that mimics Contentful's live preview functionality.",
       },
     },
   },
@@ -101,26 +98,35 @@ export const BlogPost: Story = {
     props: {
       showReadTime: true,
       showTags: true,
-      allowEdit: true
+      allowEdit: true,
     },
     viewMode: 'desktop',
     onClose: action('slideout-closed'),
   },
-  render: (args) => (
+  render: args => (
     <div style={{ height: '100vh', position: 'relative' }}>
-      <div style={{ padding: '2rem', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', height: '100%', color: 'white' }}>
-        <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Demo Application</h1>
+      <div
+        style={{
+          padding: '2rem',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          height: '100%',
+          color: 'white',
+        }}
+      >
+        <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+          Demo Application
+        </h1>
         <p style={{ marginBottom: '1rem' }}>
           This simulates your main application. The slideout appears on top.
         </p>
-        <button 
-          style={{ 
-            background: '#fff', 
-            color: '#333', 
-            padding: '0.5rem 1rem', 
-            border: 'none', 
+        <button
+          style={{
+            background: '#fff',
+            color: '#333',
+            padding: '0.5rem 1rem',
+            border: 'none',
             borderRadius: '0.5rem',
-            cursor: 'pointer'
+            cursor: 'pointer',
           }}
           onClick={action('content-clicked')}
         >
@@ -139,7 +145,7 @@ export const Author: Story = {
     data: mockAuthor,
     props: {
       showSocialLinks: true,
-      showContactInfo: true
+      showContactInfo: true,
     },
   },
   render: BlogPost.render,
@@ -177,12 +183,12 @@ export const WithRealContentfulData: Story = {
         content: 'Your real content...',
         tags: ['your', 'real', 'tags'],
         readTime: 5,
-      }
+      },
     },
     props: {
       showReadTime: true,
       showTags: true,
-      allowEdit: true
+      allowEdit: true,
     },
     viewMode: 'desktop',
     onClose: action('slideout-closed'),

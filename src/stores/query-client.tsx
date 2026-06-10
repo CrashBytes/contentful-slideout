@@ -2,7 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 
 interface QueryProviderProps {
   children: ReactNode
@@ -17,15 +17,17 @@ function makeQueryClient() {
         retry: (failureCount, error) => {
           if (error instanceof Error) {
             const errorMessage = error.message.toLowerCase()
-            if (errorMessage.includes('401') || 
-                errorMessage.includes('403') || 
-                errorMessage.includes('unauthorized')) {
+            if (
+              errorMessage.includes('401') ||
+              errorMessage.includes('403') ||
+              errorMessage.includes('unauthorized')
+            ) {
               return false
             }
           }
           return failureCount < 3
         },
-        retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+        retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
         refetchOnWindowFocus: false,
         refetchOnReconnect: 'always',
         refetchOnMount: true,
@@ -58,7 +60,7 @@ export function QueryProvider({ children }: QueryProviderProps) {
       {process.env.NODE_ENV === 'development' && (
         <ReactQueryDevtools
           initialIsOpen={false}
-          buttonPosition="bottom-right"
+          buttonPosition='bottom-right'
         />
       )}
     </QueryClientProvider>

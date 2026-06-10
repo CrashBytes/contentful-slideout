@@ -12,9 +12,7 @@ export function BlogPostPreview({ data, props }: SlideoutPreviewProps) {
 
   return (
     <div>
-      <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
-        {fields.title}
-      </h1>
+      <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>{fields.title}</h1>
       {fields.excerpt && (
         <p style={{ fontSize: '1.1rem', color: '#666', marginBottom: '1rem' }}>
           {fields.excerpt}
@@ -28,7 +26,7 @@ export function BlogPostPreview({ data, props }: SlideoutPreviewProps) {
       {showTags && fields.tags && (
         <div style={{ marginBottom: '1rem' }}>
           {fields.tags.map((tag: string, index: number) => (
-            <span 
+            <span
               key={index}
               style={{
                 display: 'inline-block',
@@ -36,7 +34,7 @@ export function BlogPostPreview({ data, props }: SlideoutPreviewProps) {
                 padding: '0.25rem 0.5rem',
                 borderRadius: '0.25rem',
                 marginRight: '0.5rem',
-                fontSize: '0.875rem'
+                fontSize: '0.875rem',
               }}
             >
               {tag}
@@ -44,7 +42,13 @@ export function BlogPostPreview({ data, props }: SlideoutPreviewProps) {
           ))}
         </div>
       )}
-      <div style={{ background: '#f9f9f9', padding: '1rem', borderRadius: '0.5rem' }}>
+      <div
+        style={{
+          background: '#f9f9f9',
+          padding: '1rem',
+          borderRadius: '0.5rem',
+        }}
+      >
         <h3>Content Preview</h3>
         <p>{fields.content}</p>
       </div>
@@ -58,9 +62,7 @@ export function AuthorPreview({ data, props }: SlideoutPreviewProps) {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
-        {fields.name}
-      </h1>
+      <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>{fields.name}</h1>
       {fields.bio && (
         <p style={{ fontSize: '1.1rem', color: '#666', marginBottom: '2rem' }}>
           {fields.bio}

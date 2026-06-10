@@ -6,14 +6,14 @@ import { ContentfulSlideout, ContentfulEntry } from './ContentfulSlideout'
 const mockSuperheroEntry: ContentfulEntry = {
   sys: {
     id: 'hero-001',
-    contentType: { 
+    contentType: {
       sys: { id: 'superhero' },
-      name: 'Superhero Character'
+      name: 'Superhero Character',
     },
     createdAt: '2024-01-15T09:00:00Z',
     updatedAt: '2024-01-20T14:30:00Z',
     publishedAt: '2024-01-18T10:00:00Z',
-    version: 12
+    version: 12,
   },
   sections: [
     {
@@ -28,7 +28,7 @@ const mockSuperheroEntry: ContentfulEntry = {
           value: 'Captain Cosmic',
           required: true,
           maxLength: 50,
-          placeholder: 'Enter superhero name'
+          placeholder: 'Enter superhero name',
         },
         {
           id: 'realName',
@@ -37,18 +37,19 @@ const mockSuperheroEntry: ContentfulEntry = {
           value: 'Dr. Sarah Chen',
           required: true,
           maxLength: 100,
-          helpText: 'The hero\'s real name (classified)'
+          helpText: "The hero's real name (classified)",
         },
         {
           id: 'origin',
           name: 'Origin Story',
           type: 'textarea',
-          value: 'Gained cosmic powers after being exposed to a mysterious meteor during a deep space research mission.',
+          value:
+            'Gained cosmic powers after being exposed to a mysterious meteor during a deep space research mission.',
           required: true,
           maxLength: 500,
-          placeholder: 'How did they get their powers?'
-        }
-      ]
+          placeholder: 'How did they get their powers?',
+        },
+      ],
     },
     {
       id: 'powers',
@@ -62,7 +63,13 @@ const mockSuperheroEntry: ContentfulEntry = {
           type: 'select',
           value: 'Cosmic Energy Manipulation',
           required: true,
-          options: ['Super Strength', 'Flight', 'Telepathy', 'Cosmic Energy Manipulation', 'Time Control']
+          options: [
+            'Super Strength',
+            'Flight',
+            'Telepathy',
+            'Cosmic Energy Manipulation',
+            'Time Control',
+          ],
         },
         {
           id: 'powerLevel',
@@ -70,34 +77,34 @@ const mockSuperheroEntry: ContentfulEntry = {
           type: 'number',
           value: 85,
           required: true,
-          helpText: 'Overall power rating'
+          helpText: 'Overall power rating',
         },
         {
           id: 'canFly',
           name: 'Can Fly',
           type: 'boolean',
           value: true,
-          required: false
-        }
-      ]
-    }
+          required: false,
+        },
+      ],
+    },
   ],
   metadata: {
     tags: ['superhero', 'cosmic', 'space'],
-    status: 'published'
-  }
+    status: 'published',
+  },
 }
 
 const mockPizzaEntry: ContentfulEntry = {
   sys: {
     id: 'pizza-supreme',
-    contentType: { 
+    contentType: {
       sys: { id: 'menuItem' },
-      name: 'Pizza Menu Item'
+      name: 'Pizza Menu Item',
     },
     createdAt: '2024-01-12T11:00:00Z',
     updatedAt: '2024-01-22T16:20:00Z',
-    version: 5
+    version: 5,
   },
   sections: [
     {
@@ -112,15 +119,16 @@ const mockPizzaEntry: ContentfulEntry = {
           value: 'The Supreme Overlord',
           required: true,
           maxLength: 50,
-          placeholder: 'Enter pizza name'
+          placeholder: 'Enter pizza name',
         },
         {
           id: 'description',
           name: 'Description',
           type: 'textarea',
-          value: 'A legendary pizza loaded with pepperoni, sausage, mushrooms, peppers, and extra cheese!',
+          value:
+            'A legendary pizza loaded with pepperoni, sausage, mushrooms, peppers, and extra cheese!',
           required: true,
-          maxLength: 300
+          maxLength: 300,
         },
         {
           id: 'category',
@@ -128,9 +136,9 @@ const mockPizzaEntry: ContentfulEntry = {
           type: 'select',
           value: 'Specialty Pizza',
           required: true,
-          options: ['Classic', 'Specialty Pizza', 'Vegetarian', 'Vegan']
-        }
-      ]
+          options: ['Classic', 'Specialty Pizza', 'Vegetarian', 'Vegan'],
+        },
+      ],
     },
     {
       id: 'pricing',
@@ -143,22 +151,22 @@ const mockPizzaEntry: ContentfulEntry = {
           name: 'Price (USD)',
           type: 'number',
           value: 22.99,
-          required: true
+          required: true,
         },
         {
           id: 'available',
           name: 'Currently Available',
           type: 'boolean',
           value: true,
-          required: true
-        }
-      ]
-    }
+          required: true,
+        },
+      ],
+    },
   ],
   metadata: {
     tags: ['pizza', 'specialty', 'popular'],
-    status: 'published'
-  }
+    status: 'published',
+  },
 }
 
 const meta: Meta<typeof ContentfulSlideout> = {
@@ -183,7 +191,13 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 const renderStory = (args: any) => (
-  <div style={{ height: '100vh', position: 'relative', backgroundColor: '#f5f5f5' }}>
+  <div
+    style={{
+      height: '100vh',
+      position: 'relative',
+      backgroundColor: '#f5f5f5',
+    }}
+  >
     <div style={{ padding: '2rem' }}>
       <h1 style={{ fontSize: '2rem', marginBottom: '1rem', color: '#333' }}>
         🎮 Fun Content Management
@@ -228,23 +242,30 @@ export const ReadOnly: Story = {
 export const Interactive: Story = {
   render: () => {
     const [isOpen, setIsOpen] = React.useState(false)
-    const [currentEntry, setCurrentEntry] = React.useState<ContentfulEntry>(mockSuperheroEntry)
-    
+    const [currentEntry, setCurrentEntry] =
+      React.useState<ContentfulEntry>(mockSuperheroEntry)
+
     return (
-      <div style={{ height: '100vh', position: 'relative', backgroundColor: '#f5f5f5' }}>
+      <div
+        style={{
+          height: '100vh',
+          position: 'relative',
+          backgroundColor: '#f5f5f5',
+        }}
+      >
         <div style={{ padding: '2rem' }}>
           <h1 style={{ fontSize: '2rem', marginBottom: '1rem', color: '#333' }}>
             🎮 Interactive Demo
           </h1>
           <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-            <button 
+            <button
               style={{
                 background: '#8b5cf6',
                 color: 'white',
                 border: 'none',
                 padding: '1rem 1.5rem',
                 borderRadius: '8px',
-                cursor: 'pointer'
+                cursor: 'pointer',
               }}
               onClick={() => {
                 setCurrentEntry(mockSuperheroEntry)
@@ -253,14 +274,14 @@ export const Interactive: Story = {
             >
               🦸‍♀️ Edit Superhero
             </button>
-            <button 
+            <button
               style={{
                 background: '#f97316',
                 color: 'white',
                 border: 'none',
                 padding: '1rem 1.5rem',
                 borderRadius: '8px',
-                cursor: 'pointer'
+                cursor: 'pointer',
               }}
               onClick={() => {
                 setCurrentEntry(mockPizzaEntry)
@@ -271,7 +292,7 @@ export const Interactive: Story = {
             </button>
           </div>
         </div>
-        
+
         <ContentfulSlideout
           isOpen={isOpen}
           entry={currentEntry}

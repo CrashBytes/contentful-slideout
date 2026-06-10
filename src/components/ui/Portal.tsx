@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 
 /**
  * Enterprise Portal Component
- * 
+ *
  * Architectural Excellence:
  * - Server-side rendering compatibility
  * - Automatic container lifecycle management
@@ -16,16 +16,22 @@ interface PortalProps {
   id?: string
 }
 
-export function Portal({ children, container, id = 'portal-root' }: PortalProps) {
+export function Portal({
+  children,
+  container,
+  id = 'portal-root',
+}: PortalProps) {
   const [mounted, setMounted] = useState(false)
-  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null)
+  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(
+    null
+  )
 
   useEffect(() => {
     let element: HTMLElement | null | undefined = container
-    
+
     if (!element) {
       element = document.getElementById(id)
-      
+
       if (!element) {
         element = document.createElement('div')
         element.id = id
@@ -36,13 +42,18 @@ export function Portal({ children, container, id = 'portal-root' }: PortalProps)
         document.body.appendChild(element)
       }
     }
-    
+
     setPortalContainer(element)
     setMounted(true)
 
     return () => {
       setMounted(false)
-      if (!container && element && element.id === id && !element.hasChildNodes()) {
+      if (
+        !container &&
+        element &&
+        element.id === id &&
+        !element.hasChildNodes()
+      ) {
         document.body.removeChild(element)
       }
     }

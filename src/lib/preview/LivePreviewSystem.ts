@@ -2,7 +2,7 @@ import { ContentfulEntry } from '@/types'
 
 /**
  * Self-Contained Live Preview System
- * 
+ *
  * Architectural Excellence:
  * - Direct PostMessage communication with Contentful editor
  * - Optimistic rendering for immediate user feedback
@@ -50,13 +50,16 @@ export class LivePreviewSystem {
     return this.instance
   }
 
-  subscribe(entryId: string, callback: (entry: ContentfulEntry) => void): () => void {
+  subscribe(
+    entryId: string,
+    callback: (entry: ContentfulEntry) => void
+  ): () => void {
     if (!this.subscribers.has(entryId)) {
       this.subscribers.set(entryId, new Set())
     }
-    
+
     this.subscribers.get(entryId)!.add(callback)
-    
+
     const cachedEntry = this.entryCache.get(entryId)
     if (cachedEntry) {
       callback(cachedEntry)
@@ -75,7 +78,7 @@ export class LivePreviewSystem {
 
   updateEntry(entryId: string, updatedEntry: ContentfulEntry): void {
     this.entryCache.set(entryId, updatedEntry)
-    
+
     const callbacks = this.subscribers.get(entryId)
     if (callbacks) {
       callbacks.forEach(callback => {
@@ -106,35 +109,37 @@ export class LivePreviewSystem {
       style: {
         cursor: 'pointer',
         outline: this.config.debugMode ? '1px dashed #3b82f6' : 'none',
-      }
+      },
     }
   }
 
   private initializeMessageHandling(): void {
     if (typeof window === 'undefined') return
 
-    window.addEventListener('message', (event) => {
+    window.addEventListener('message', event => {
       if (event.origin !== this.config.targetOrigin) {
         return
       }
 
       try {
         const data = event.data
-        
-        if (data.type === 'CONTENTFUL_FIELD_UPDATE' && this.config.enableLiveUpdates) {
+
+        if (
+          data.type === 'CONTENTFUL_FIELD_UPDATE' &&
+          this.config.enableLiveUpdates
+        ) {
           this.queueFieldUpdate({
             entryId: data.entryId,
             fieldId: data.fieldId,
             locale: data.locale,
             value: data.value,
-            timestamp: Date.now()
+            timestamp: Date.now(),
           })
         }
-        
+
         if (data.type === 'CONTENTFUL_ENTRY_UPDATE') {
           this.updateEntry(data.entryId, data.entry)
         }
-
       } catch (error) {
         console.error('Message handling error:', error)
       }
@@ -146,14 +151,15 @@ export class LivePreviewSystem {
         locale: this.config.locale,
         capabilities: {
           liveUpdates: this.config.enableLiveUpdates,
-          inspectorMode: this.config.enableInspectorMode
-        }
-      }
+          inspectorMode: this.config.enableInspectorMode,
+        },
+      },
     })
   }
 
   private setupInspectorMode(): void {
-    if (!this.config.enableInspectorMode || typeof window === 'undefined') return
+    if (!this.config.enableInspectorMode || typeof window === 'undefined')
+      return
 
     const style = document.createElement('style')
     style.textContent = `
@@ -188,13 +194,13 @@ export class LivePreviewSystem {
       type: 'OPEN_FIELD_EDITOR',
       entryId: options.entryId,
       fieldId: options.fieldId,
-      locale: options.locale || this.config.locale
+      locale: options.locale || this.config.locale,
     })
   }
 
   private queueFieldUpdate(event: FieldUpdateEvent): void {
     this.messageQueue.push(event)
-    
+
     if (!this.isProcessing) {
       this.processMessageQueue()
     }
@@ -209,30 +215,35 @@ export class LivePreviewSystem {
       const updates = [...this.messageQueue]
       this.messageQueue = []
 
-      const updatesByEntry = updates.reduce((acc, update) => {
-        if (!acc[update.entryId]) {
-          acc[update.entryId] = []
-        }
-        acc[update.entryId]!.push(update)
-        return acc
-      }, {} as Record<string, FieldUpdateEvent[]>)
+      const updatesByEntry = updates.reduce(
+        (acc, update) => {
+          if (!acc[update.entryId]) {
+            acc[update.entryId] = []
+          }
+          acc[update.entryId]!.push(update)
+          return acc
+        },
+        {} as Record<string, FieldUpdateEvent[]>
+      )
 
       await Promise.all(
         Object.entries(updatesByEntry).map(([entryId, entryUpdates]) =>
           this.processBatchedUpdates(entryId, entryUpdates)
         )
       )
-
     } finally {
       this.isProcessing = false
-      
+
       if (this.messageQueue.length > 0) {
         setTimeout(() => this.processMessageQueue(), 100)
       }
     }
   }
 
-  private async processBatchedUpdates(entryId: string, updates: FieldUpdateEvent[]): Promise<void> {
+  private async processBatchedUpdates(
+    entryId: string,
+    updates: FieldUpdateEvent[]
+  ): Promise<void> {
     const currentEntry = this.entryCache.get(entryId)
     if (!currentEntry) return
 
@@ -247,8 +258,8 @@ export class LivePreviewSystem {
       sys: {
         ...currentEntry.sys,
         updatedAt: new Date().toISOString(),
-        revision: currentEntry.sys.revision + 1
-      }
+        revision: currentEntry.sys.revision + 1,
+      },
     }
 
     this.updateEntry(entryId, updatedEntry)
@@ -275,11 +286,13 @@ export class LivePreviewSystem {
       subscribedEntries: this.subscribers.size,
       cachedEntries: this.entryCache.size,
       queuedUpdates: this.messageQueue.length,
-      isProcessing: this.isProcessing
+      isProcessing: this.isProcessing,
     }
   }
 }
 
-export function initializeLivePreview(config: LivePreviewConfig): LivePreviewSystem {
+export function initializeLivePreview(
+  config: LivePreviewConfig
+): LivePreviewSystem {
   return LivePreviewSystem.initialize(config)
 }

@@ -41,9 +41,12 @@ export interface PreviewState {
   activeEntry: ContentfulEntry | null
   entryType: EntryTypeDefinition | null
   configurations: Map<string, EntryConfiguration>
-  
+
   openPreview: (entry: ContentfulEntry, type?: EntryTypeDefinition) => void
   closePreview: () => void
-  updateConfiguration: (entryId: string, config: Partial<EntryConfiguration>) => void
+  updateConfiguration: (
+    entryId: string,
+    config: Partial<EntryConfiguration>
+  ) => void
   setViewMode: (mode: ViewMode) => void
 }

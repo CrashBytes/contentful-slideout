@@ -1,17 +1,17 @@
 import { create } from 'zustand'
 import { subscribeWithSelector, persist, devtools } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
-import { 
-  PreviewState, 
-  ContentfulEntry, 
-  EntryTypeDefinition, 
+import {
+  PreviewState,
+  ContentfulEntry,
+  EntryTypeDefinition,
   ViewMode,
-  EntryConfiguration
+  EntryConfiguration,
 } from '@/types'
 
 /**
  * Enterprise State Management with Zustand
- * 
+ *
  * Architectural Patterns:
  * - Immer integration for immutable updates
  * - Selective persistence for user preferences
@@ -22,7 +22,7 @@ export const usePreviewStore = create<PreviewState>()(
   devtools(
     subscribeWithSelector(
       persist(
-        immer((set, get) => ({
+        immer(set => ({
           isOpen: false,
           viewMode: 'desktop' as ViewMode,
           activeEntry: null,
@@ -61,7 +61,7 @@ export const usePreviewStore = create<PreviewState>()(
           closePreview: () => {
             set(state => {
               const wasOpen = state.isOpen
-              
+
               state.isOpen = false
               state.activeEntry = null
               state.entryType = null
@@ -72,10 +72,17 @@ export const usePreviewStore = create<PreviewState>()(
             })
           },
 
-          updateConfiguration: (entryId: string, config: Partial<EntryConfiguration>) => {
+          updateConfiguration: (
+            entryId: string,
+            config: Partial<EntryConfiguration>
+          ) => {
             set(state => {
               const existing = state.configurations.get(entryId) || { entryId }
-              const updated = { ...existing, ...config, lastModified: new Date().toISOString() }
+              const updated = {
+                ...existing,
+                ...config,
+                lastModified: new Date().toISOString(),
+              }
               state.configurations.set(entryId, updated)
             })
           },
@@ -96,17 +103,17 @@ export const usePreviewStore = create<PreviewState>()(
         })),
         {
           name: 'contentful-preview-store',
-          partialize: (state) => ({
+          partialize: state => ({
             viewMode: state.viewMode,
             configurations: Array.from(state.configurations.entries()),
           }),
-          onRehydrateStorage: () => (state) => {
+          onRehydrateStorage: () => state => {
             if (state) {
               state.configurations = new Map(state.configurations as any)
             }
           },
         }
-      ),
+      )
     )
   )
 )

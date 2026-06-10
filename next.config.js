@@ -4,11 +4,16 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 const nextConfig = {
-  experimental: {
-    appDir: true,
-    serverComponentsExternalPackages: ['contentful'],
-  },
-  
+  // Next 16: `appDir` is stable (no longer experimental) and
+  // `serverComponentsExternalPackages` moved to the top-level
+  // `serverExternalPackages`.
+  serverExternalPackages: ['contentful'],
+
+  // Next 16 enables Turbopack by default. An empty config acknowledges this and
+  // silences the "webpack config with no turbopack config" build error; the
+  // dev-only webpack polling block below is retained for `next dev --webpack`.
+  turbopack: {},
+
   images: {
     domains: ['images.ctfassets.net', 'assets.ctfassets.net'],
     formats: ['image/webp', 'image/avif'],

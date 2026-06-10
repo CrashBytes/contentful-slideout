@@ -32,39 +32,48 @@ export function FlexibleSlideout({
   entryType,
   data,
   props = {},
-  viewMode = 'desktop'
+  viewMode = 'desktop',
 }: FlexibleSlideoutProps) {
   if (!isOpen) return null
 
   const PreviewComponent = entryType.previewComponent
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      right: 0,
-      width: viewMode === 'mobile' ? '100%' : viewMode === 'tablet' ? '768px' : '1024px',
-      height: '100%',
-      backgroundColor: 'white',
-      boxShadow: '0 0 20px rgba(0,0,0,0.3)',
-      zIndex: 1000,
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
-      {/* Header */}
-      <div style={{
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
-        padding: '1rem',
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        right: 0,
+        width:
+          viewMode === 'mobile'
+            ? '100%'
+            : viewMode === 'tablet'
+              ? '768px'
+              : '1024px',
+        height: '100%',
+        backgroundColor: 'white',
+        boxShadow: '0 0 20px rgba(0,0,0,0.3)',
+        zIndex: 1000,
         display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }}>
+        flexDirection: 'column',
+      }}
+    >
+      {/* Header */}
+      <div
+        style={{
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          padding: '1rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         <div>
           <h2 style={{ margin: 0, fontSize: '1.5rem' }}>Content Preview</h2>
           <p style={{ margin: 0, opacity: 0.8 }}>{entryType.name}</p>
         </div>
-        <button 
+        <button
           onClick={onClose}
           style={{
             background: 'rgba(255,255,255,0.2)',
@@ -72,7 +81,7 @@ export function FlexibleSlideout({
             color: 'white',
             padding: '0.5rem',
             borderRadius: '0.25rem',
-            cursor: 'pointer'
+            cursor: 'pointer',
           }}
         >
           ✕

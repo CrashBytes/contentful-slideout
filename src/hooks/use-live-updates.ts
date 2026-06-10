@@ -1,5 +1,4 @@
 import { useEffect, ReactNode } from 'react'
-import { usePreviewStore } from '@/stores/preview-store'
 import { LivePreviewSystem } from '@/lib/preview/LivePreviewSystem'
 
 interface LiveUpdatesConfig {
@@ -25,7 +24,7 @@ export function useLiveUpdates(config: LiveUpdatesConfig) {
       return
     }
 
-    const previewSystem = LivePreviewSystem.initialize({
+    LivePreviewSystem.initialize({
       locale: 'en-US',
       enableInspectorMode: false,
       enableLiveUpdates: config.enableRealTimeUpdates !== false,
@@ -48,8 +47,11 @@ export function useLiveUpdates(config: LiveUpdatesConfig) {
  * Provider component for live updates functionality
  * Wraps children with live preview capabilities
  */
-export function LiveUpdatesProvider({ children, config }: LiveUpdatesProviderProps) {
+export function LiveUpdatesProvider({
+  children,
+  config,
+}: LiveUpdatesProviderProps) {
   useLiveUpdates(config)
-  
+
   return children
 }
