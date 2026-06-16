@@ -123,7 +123,7 @@
     "autoprefixer": "^10.5.0",
     "contentful": "^11.12.5",
     "date-fns": "^4.4.0",
-    "eslint": "^10.5.0",
+    "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.9",
     "framer-motion": "^12.40.0",
     "jest": "^30.4.2",
