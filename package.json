@@ -1,6 +1,6 @@
 {
   "name": "contentful-slideout",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "A powerful, flexible React component that brings Contentful's live preview experience to any Next.js application",
   "keywords": [
     "react",
