@@ -137,7 +137,7 @@
     "autoprefixer": "^10.5.4",
     "contentful": "^11.12.7",
     "date-fns": "^4.4.0",
-    "eslint": "^10.8.0",
+    "eslint": "^9.39.5",
     "eslint-config-next": "^16.2.12",
     "framer-motion": "^12.43.0",
     "jest": "^30.4.2",
@@ -154,7 +154,7 @@
     "rollup-plugin-postcss": "^4.0.2",
     "storybook": "^10.5.5",
     "tailwindcss": "^4.3.3",
-    "typescript": "^7.0.2"
+    "typescript": "^6.0.3"
   },
   "engines": {
     "node": ">=18.0.0",
