@@ -14,6 +14,10 @@ const nextConfig = {
   // dev-only webpack polling block below is retained for `next dev --webpack`.
   turbopack: {},
 
+  experimental: {
+    useTypeScriptCli: true,
+  },
+
   images: {
     domains: ['images.ctfassets.net', 'assets.ctfassets.net'],
     formats: ['image/webp', 'image/avif'],
