@@ -14,13 +14,7 @@ export interface ContentfulField {
   id: string
   name: string
   type:
-    | 'text'
-    | 'textarea'
-    | 'select'
-    | 'boolean'
-    | 'number'
-    | 'date'
-    | 'richtext'
+    'text' | 'textarea' | 'select' | 'boolean' | 'number' | 'date' | 'richtext'
   value: any
   required?: boolean
   helpText?: string
