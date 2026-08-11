@@ -139,7 +139,7 @@
     "autoprefixer": "^10.5.4",
     "contentful": "^11.12.7",
     "date-fns": "^4.4.0",
-    "eslint": "^9.39.5",
+    "eslint": "^10.8.1",
     "eslint-config-next": "^16.2.12",
     "framer-motion": "^12.43.0",
     "jest": "^30.4.2",
